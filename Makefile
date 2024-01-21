@@ -27,3 +27,6 @@ build-prog: assembler
 
 run-cpu: build-cpu build-prog
 	./build/cpulm -p ./build/program.po -d ./build/program.do
+
+run-vm:	build-prog vm
+	./VirtualMachine/build/src/cpulm_vm ./build/program.po ./build/program.do
