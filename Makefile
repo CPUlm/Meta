@@ -16,8 +16,10 @@ vm:
 	cmake -S ./VirtualMachine/ -B ./VirtualMachine/build
 	cmake --build ./VirtualMachine/build
 
-build-cpu: csimulator cpulm
+build-netlist: csimulator cpulm
 	./CSimulator/csimulator ./CPUlm/cpulm.net ./build/
+
+build-cpu: build-netlist
 	cd build/ && clang *.c -o cpulm
 
 build-prog: assembler
@@ -32,3 +34,15 @@ run-cpu: build-cpu build-prog
 
 run-vm:	build-prog vm
 	./VirtualMachine/build/src/cpulm_vm ./build/program.po ./build/program.do
+
+build-cpu-prof: build-netlist
+	cd build/ && clang *.c -O2 -fprofile-instr-generate -o cpulm
+
+build-cpu-pgo: build-netlist build/cpulm.profdata
+	cd build/ && clang *.c -O2 -fprofile-use=cpulm.profdata -o cpulm
+
+run-cpu-prof: build-cpu-prof build-prog
+	LLVM_PROFILE_FILE="build/cpulm-%p.profraw" ./build/cpulm -p ./build/program.po -d ./build/program.do
+
+build/cpulm.profdata:
+	llvm-profdata-14 merge -output=build/cpulm.profdata $(wildcard build/cpulm-*.profraw)
