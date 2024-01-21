@@ -1,0 +1,247 @@
+.text
+refresh_init:
+    loadi r3 63
+    loadi r4 $top
+    load r4 r4
+    jmp $draw_frame
+
+draw_frame:
+    dec r3 r3
+    jmp.z $draw_frame_2
+    store r3 r4
+    jmp $draw_frame
+
+draw_frame_2:
+    loadi r4 $borders
+    load r4 r4
+    loadi r3 128
+    store r3 r4
+    loadi r3 191
+    store r3 r4
+    loadi r3 192
+    store r3 r4
+    loadi r3 255
+    store r3 r4
+    loadi r3 256
+    store r3 r4
+    loadi r3 319
+    store r3 r4
+draw_frame_3:
+    ; les coins
+    inc r3 r3
+    loadi r3 64
+    loadi r4 $right_angle
+    load r4 r4
+    store r3 r4
+    loadi r4 $left_angle
+    load r4 r4
+    loadi r3 127
+    store r3 r4
+    loadi r3 320
+    store r3 r4
+    loadi r4 $right_angle
+    load r4 r4
+    loadi r3 383
+    store r3 r4
+    inc r3 r3
+    inc r3 r3
+    loadi r4 $left_angle
+    load r4 r4
+    store r3 r4
+    loadi r4 $top
+    load r4 r4
+    loadi r5 446
+
+
+draw_frame_4:
+    inc r3 r3; le bord bas
+    sub r6 r5 r3
+    jmp.z $draw_frame_5
+    store r3 r4
+    jmp $draw_frame_4
+
+draw_frame_5:
+    loadi r4 $right_angle
+    load r4 r4
+    store r3 r4
+    jmp $draw_logo
+
+draw_logo:
+    loadi r4 $logo
+    loadi r3 474
+    call $write_msg
+    jmp $draw_back
+
+
+
+draw_back:
+    loadi r3 65
+    loadi r4 $fill
+    load r4 r4
+    loadi r5 62
+    call $draw_back_loop
+    loadi r5 62
+    loadi r3 129
+    call $draw_back_loop
+    loadi r5 62
+    loadi r3 193
+    call $draw_back_loop
+    loadi r5 62
+    loadi r3 257
+    call $draw_back_loop
+    loadi r5 62
+    loadi r3 321
+    call $draw_back_loop
+    call $draw_delimiteur
+    call $draw_hrs
+    call $draw_min
+    call $draw_sec
+    jmp $loop
+
+draw_delimiteur:
+    loadi r4 $right_angle
+    load r4 r4
+    loadi r3 220
+    store r3 r4
+    loadi r3 223
+    store r3 r4
+    ret
+draw_back_loop:
+    test r5
+    jmp.z $draw_back_loop_fin
+    dec r5 r5
+    store r3 r4
+    inc r3 r3
+    jmp $draw_back_loop
+
+draw_back_loop_fin:
+    ret
+
+write_msg: 
+    load r5 r4
+    test r5
+    jmp.z $fin_msg
+    store r3 r5
+    inc r3 r3
+    inc r4 r4
+    jmp $write_msg
+
+fin_msg:
+    ret
+
+
+draw_int: ;argument dans r5
+    loadi r4 $int_to_str
+    add r4 r4 r5
+    add r4 r4 r5
+    add r4 r4 r5
+    call $write_msg
+    ret
+
+draw_hrs:
+    mov r5 r22
+    loadi r3 218
+    call $draw_int
+    ret
+
+draw_min:
+    mov r5 r21
+    loadi r3 221
+    call $draw_int
+    ret
+
+draw_sec:
+    mov r5 r20
+    loadi r3 224
+    call $draw_int
+    ret
+
+
+refresh_sec:
+    call $draw_sec
+    jmp $loop
+refresh_min:
+    call $draw_sec
+    call $draw_min
+    jmp $loop
+refresh_hour:
+    call $draw_sec
+    call $draw_min
+    call $draw_hrs
+    jmp $loop
+refresh_day:
+    jmp $loop
+refresh_month:
+    jmp $loop
+refresh_year:
+    jmp $loop
+
+.data
+top: .zstring #italic(#bold(#textcolor(red,"_")))
+right_angle: .zstring #bold(#italic(#textcolor(red, "/")))
+left_angle: .zstring #bold(#italic(#textcolor(red, "\\")))
+borders: .zstring #bold(#italic(#textcolor(red,"|")))
+logo: .zstring #italic(#backcolor(blue,#textcolor(cyan,"CPUlm")) + #backcolor(brightyellow,#textcolor(magenta,#italic("Gold Edition"))))
+fill: .zstring #backcolor(black," ")
+int_to_str: 
+ .zstring #italic(#backcolor(black,#textcolor(red,"00")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"01")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"02")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"03")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"04")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"05")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"06")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"07")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"08")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"09")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"11")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"12")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"13")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"14")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"15")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"16")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"17")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"18")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"18")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"20")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"21")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"22")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"23")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"24")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"25")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"26")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"27")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"28")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"29")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"30")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"31")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"32")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"33")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"34")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"35")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"36")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"37")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"38")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"39")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"40")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"41")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"42")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"43")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"44")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"45")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"46")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"47")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"48")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"49")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"50")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"51")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"52")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"53")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"54")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"55")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"56")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"57")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"58")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"59")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"60")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"XX")))
