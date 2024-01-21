@@ -13,7 +13,7 @@ csimulator:
 
 vm:
 	mkdir -p ./VirtualMachine/build
-	cmake -S ./VirtualMachine/ ./VirtualMachine/build
+	cmake -S ./VirtualMachine/ -B ./VirtualMachine/build
 	cmake --build ./VirtualMachine/build
 
 build-cpu: csimulator cpulm
