@@ -1,0 +1,16 @@
+[submodule "CSimulator"]
+	path = CSimulator
+	url = git@github.com:CPUlm/CSimulator.git
+	branch = main
+[submodule "CPUlm"]
+	path = CPUlm
+	url = git@github.com:CPUlm/CPUlm.git
+	branch = main
+[submodule "Assembler"]
+	path = Assembler
+	url = git@github.com:CPUlm/Assembler.git
+	branch = main
+[submodule "VirtualMachine"]
+	path = VirtualMachine
+	url = git@github.com:CPUlm/VirtualMachine.git
+	branch = master
