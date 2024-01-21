@@ -21,9 +21,11 @@ build-cpu: csimulator cpulm
 	cd build/ && clang *.c -o cpulm
 
 build-prog: assembler
-	./Assembler/asm program.ulm
-	mv program.po ./build
-	mv program.do ./build
+	gcc -E -C program.ulm -o program_tmp.ulm
+	./Assembler/asm program_tmp.ulm
+	mv program_tmp.po ./build/program.po
+	mv program_tmp.do ./build/program.do
+	rm program_tmp.ulm
 
 run-cpu: build-cpu build-prog
 	./build/cpulm -p ./build/program.po -d ./build/program.do
