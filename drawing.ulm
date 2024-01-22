@@ -92,7 +92,11 @@ draw_back:
     loadi r5 62
     loadi r3 321
     call $draw_back_loop
+    call $display_ad_one
     call $draw_delimiteur
+    call $draw_yrs
+    call $draw_mnths
+    call $draw_days
     call $draw_hrs
     call $draw_min
     call $draw_sec
@@ -104,6 +108,10 @@ draw_delimiteur:
     loadi r3 220
     store r3 r4
     loadi r3 223
+    store r3 r4
+    loadi r3 119
+    store r3 r4
+    loadi r3 122
     store r3 r4
     ret
 draw_back_loop:
@@ -138,6 +146,25 @@ draw_int: ;argument dans r5
     call $write_msg
     ret
 
+
+draw_yrs:
+    loadi r3 123
+    loadi r4 $todo
+    call $write_msg
+    ret
+draw_mnths:
+    mov r5 r24
+    loadi r3 120
+    call $draw_int
+    call $display_ad_two
+    ret
+
+draw_days:
+    mov r5 r23
+    loadi r3 117
+    call $draw_int
+    ret
+
 draw_hrs:
     mov r5 r22
     loadi r3 218
@@ -170,12 +197,47 @@ refresh_hour:
     call $draw_hrs
     jmp $loop
 refresh_day:
+    call $draw_sec
+    call $draw_min
+    call $draw_hrs
+    call $draw_days
     jmp $loop
 refresh_month:
+    call $draw_sec
+    call $draw_min
+    call $draw_hrs
+    call $draw_days
+    call $draw_mnths
     jmp $loop
-refresh_year:
+refresh_year:    
+    call $draw_sec
+    call $draw_min
+    call $draw_hrs
+    call $draw_days
+    call $draw_mnths
+    call $draw_yrs
     jmp $loop
 
+
+display_ad:
+    loadi r3 257
+    loadi r4 $fill_ad
+    load r4 r4
+    loadi r5 62
+    call $draw_back_loop 
+    loadi r3 257
+    mov r4 r6
+    call $write_msg
+    ret
+
+display_ad_one:
+    loadi r6 $ad1
+    call $display_ad
+    ret
+display_ad_two:
+    loadi r6 $ad2
+    call $display_ad
+    ret
 .data
 top: .zstring #italic(#bold(#textcolor(red,"_")))
 right_angle: .zstring #bold(#italic(#textcolor(red, "/")))
@@ -183,7 +245,11 @@ left_angle: .zstring #bold(#italic(#textcolor(red, "\\")))
 borders: .zstring #bold(#italic(#textcolor(red,"|")))
 logo: .zstring #italic(#backcolor(blue,#textcolor(cyan,"CPUlm")) + #backcolor(brightyellow,#textcolor(magenta,#italic("Gold Edition"))))
 fill: .zstring #backcolor(black," ")
-int_to_str: 
+ad1: .zstring #backcolor(red,#textcolor(black,#italic("Marre des pubs ? Devenez Premium !")))
+ad2: .zstring #backcolor(red,#textcolor(black,#italic("CPUlm Now bientot disponible: Votre CPU dans le cloud !")))
+fill_ad: .zstring #backcolor(red," ")
+todo: .zstring #italic(#backcolor(black,#textcolor(red,"TODO")))
+int_to_str:
  .zstring #italic(#backcolor(black,#textcolor(red,"00")))
  .zstring #italic(#backcolor(black,#textcolor(red,"01")))
  .zstring #italic(#backcolor(black,#textcolor(red,"02")))
@@ -194,6 +260,7 @@ int_to_str:
  .zstring #italic(#backcolor(black,#textcolor(red,"07")))
  .zstring #italic(#backcolor(black,#textcolor(red,"08")))
  .zstring #italic(#backcolor(black,#textcolor(red,"09")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"10")))
  .zstring #italic(#backcolor(black,#textcolor(red,"11")))
  .zstring #italic(#backcolor(black,#textcolor(red,"12")))
  .zstring #italic(#backcolor(black,#textcolor(red,"13")))
@@ -202,7 +269,7 @@ int_to_str:
  .zstring #italic(#backcolor(black,#textcolor(red,"16")))
  .zstring #italic(#backcolor(black,#textcolor(red,"17")))
  .zstring #italic(#backcolor(black,#textcolor(red,"18")))
- .zstring #italic(#backcolor(black,#textcolor(red,"18")))
+ .zstring #italic(#backcolor(black,#textcolor(red,"19")))
  .zstring #italic(#backcolor(black,#textcolor(red,"20")))
  .zstring #italic(#backcolor(black,#textcolor(red,"21")))
  .zstring #italic(#backcolor(black,#textcolor(red,"22")))

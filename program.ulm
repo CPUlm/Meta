@@ -2,7 +2,8 @@
 .text
 init:
     loadi r24 1
-    loadi r8 10000
+    loadi r25 1
+    loadi r23 1
     jmp $refresh_init
 main:
     jmp $init
@@ -10,9 +11,8 @@ main:
 loop:
     loadi r12 1024
     load r12 r12
-    sub r12 r1 r12 ; mettre r1 pour que ça test r12 = 1 (ici je fais ça pour pouvoir tester)
-    test r12
-    jmp.z $vrai_update_sec ; mettre juste update_sec pour simuler un peu d'attente
+    sub r12 r0 r12 ; mettre r1 pour que ça test r12 = 1 (ici je fais ça pour pouvoir tester)
+    jmp.z $vrai_update_sec ; mettre juste update_sec pour simuler un peu d attente
     jmp $loop
 
 update_sec:
@@ -24,7 +24,6 @@ update_sec:
 vrai_update_sec:
     loadi r12 1024
     store r12 r0
-    loadi r8 10000
     inc r20 r20
     loadi r2 60
     sub r2 r2 r20
