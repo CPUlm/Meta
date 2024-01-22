@@ -10,9 +10,12 @@ main:
     jmp $init
 
 loop:
+#ifdef FAST_FORWARD
+    jmp $vrai_update_sec    jmp $vrai_update_sec
+#endif
     loadi r12 1024
     load r12 r12
-    sub r12 r0 r12 ; mettre r1 pour que ça test r12 = 1 (ici je fais ça pour pouvoir tester)
+    sub r12 r1 r12 ; mettre r1 pour que ça test r12 = 1 (ici je fais ça pour pouvoir tester)
     jmp.z $vrai_update_sec ; mettre juste update_sec pour simuler un peu d attente
     jmp $loop
 
