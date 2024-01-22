@@ -2,7 +2,7 @@
 .text
 init:
     loadi r24 1
-    loadi r25 1
+    loadi r25 27
     loadi r23 1
     loadi r10 9 ; le numero de la pub actuelle
 
