@@ -5,6 +5,9 @@ After cloning it, please do `make update`.
 - To run the program `program.ulm` on the CPUlm: use `make run-cpu`.
 - To run the program `program.ulm` on the Virtual Machine: use `make run-vm`.
 
+You can also run the program `program.ulm` step by step on the CPUlm using
+`make run-cpu-step`.
+
 All tools are automatically built if needed.
 All generated files are in `build/`. Happy Hacking !
 

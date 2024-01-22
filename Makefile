@@ -1,3 +1,5 @@
+all: assembler vm cpulm csimulator build-cpu build-prog
+
 update:
 	@git submodule update --init --recursive --remote
 	mkdir -p build/
@@ -20,7 +22,11 @@ build-netlist: csimulator cpulm
 	./CSimulator/csimulator ./CPUlm/cpulm.net ./build/
 
 build-cpu: build-netlist
-	cd build/ && clang *.c -O3 -o cpulm
+	cd build/ && clang *.c -o cpulm
+
+build-cpu-step: csimulator cpulm
+	./CSimulator/csimulator ./CPUlm/cpulm.net ./build/ --debug --pause
+	cd build/ && clang *.c -o cpulm
 
 preprocess-prog:
 	gcc -x c -P -E -nostdinc program.ulm -o program_tmp.ulm
@@ -32,6 +38,9 @@ build-prog: assembler preprocess-prog
 	rm program_tmp.ulm
 
 run-cpu: build-cpu build-prog
+	./build/cpulm -p ./build/program.po -d ./build/program.do
+
+run-cpu-step: build-cpu-step build-prog
 	./build/cpulm -p ./build/program.po -d ./build/program.do
 
 run-vm:	build-prog vm
