@@ -4,6 +4,7 @@ init:
     loadi r24 1
     loadi r25 1
     loadi r23 1
+    loadi r10 4 ; le numero de la pub actuelle
     jmp $refresh_init
 main:
     jmp $init
@@ -11,13 +12,12 @@ main:
 loop:
     loadi r12 1024
     load r12 r12
-    sub r12 r0 r12 ; mettre r1 pour que ça test r12 = 1 (ici je fais ça pour pouvoir tester)
+    sub r12 r1 r12 ; mettre r1 pour que ça test r12 = 1 (ici je fais ça pour pouvoir tester)
     jmp.z $vrai_update_sec ; mettre juste update_sec pour simuler un peu d attente
     jmp $loop
 
 update_sec:
     dec r8 r8
-    test r8
     jmp.z $vrai_update_sec
     jmp $loop
 
@@ -27,7 +27,6 @@ vrai_update_sec:
     inc r20 r20
     loadi r2 60
     sub r2 r2 r20
-    test r2
     jmp.z $update_min
     jmp $refresh_sec
 
@@ -36,7 +35,6 @@ update_min:
     inc r21 r21
     loadi r2 60
     sub r2 r2 r21
-    test r2
     jmp.z $update_hour
     jmp $refresh_min
 
@@ -45,7 +43,6 @@ update_hour:
     loadi r2 24
     inc r22 r22 ; augmente dune heure
     sub r2 r2 r22 ; on regarde si on a atteint 24h
-    test r2
     jmp.z $update_day
     jmp  $refresh_hour
 
@@ -54,14 +51,12 @@ update_day:
     add r23 r23 r1 ; ajoute 1 jour
     loadi r2 2
     sub r2 r2 r24 ; on compare le mois et février
-    test r2
     jmp.z $update_day_feb
     loadi r2 $month_days_table
     add r2 r2 r24
     sub r2 r2 r1 ; On commence au mois 1 donc décalage pour avoir lélément 0
     load r3 r2
     sub r3 r3 r23 ; on compare les jours du mois et le nombre actuel
-    test r3
     jmp.z $update_month
     jmp $refresh_day
     
@@ -69,7 +64,6 @@ update_day:
 update_day_feb:
     loadi r2 30
     sub r2 r2 r23
-    test r2
     jmp.z $check_bissextile
     jmp $non_bissextile ; si on est pas une année bissextile il faut comparer avec 28
     
@@ -90,7 +84,6 @@ check_bissextile:
 non_bissextile:
     loadi r2 29
     sub r2 r2 r23
-    test r2
     jmp.z $update_month
     jmp $refresh_month
 
@@ -99,7 +92,6 @@ update_month:
     add r24 r24 r1
     loadi r2 13
     sub r2 r2 r24
-    test r2
     jmp.z $update_year_mod_400
     jmp $refresh_month
 
@@ -109,7 +101,6 @@ update_year_mod_400:
     add r3 r3 r1
     loadi r4 400
     sub r2 r3 r4
-    test r3
     jmp.z $reset_year_mod_400
     jmp $update_year_mod_4
 reset_year_mod_400:
@@ -122,7 +113,6 @@ update_year_mod_4:
     add r3 r3 r1
     loadi r4 4
     sub r2 r3 r4
-    test r2
     jmp.z $reset_year_mod_4
     jmp $update_year_mod_100
 reset_year_mod_4:
@@ -135,7 +125,6 @@ update_year_mod_100:
     add r3 r3 r1
     loadi r4 4
     sub r2 r3 r4
-    test r2
     jmp.z $reset_year_mod_100
     jmp $update_year
 

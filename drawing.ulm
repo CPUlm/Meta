@@ -1,7 +1,7 @@
 .text
 refresh_init:
     loadi r3 63
-    loadi r4 $top
+    loadi r4 $bot
     load r4 r4
     jmp $draw_frame
 
@@ -64,15 +64,10 @@ draw_frame_5:
     loadi r4 $right_angle
     load r4 r4
     store r3 r4
-    jmp $draw_logo
-
 draw_logo:
     loadi r4 $logo
     loadi r3 474
     call $write_msg
-    jmp $draw_back
-
-
 
 draw_back:
     loadi r3 65
@@ -92,7 +87,7 @@ draw_back:
     loadi r5 62
     loadi r3 321
     call $draw_back_loop
-    call $display_ad_one
+    call $new_ad
     call $draw_delimiteur
     call $draw_yrs
     call $draw_mnths
@@ -156,7 +151,6 @@ draw_mnths:
     mov r5 r24
     loadi r3 120
     call $draw_int
-    call $display_ad_two
     ret
 
 draw_days:
@@ -185,6 +179,7 @@ draw_sec:
 
 
 refresh_sec:
+    call $new_ad
     call $draw_sec
     jmp $loop
 refresh_min:
@@ -230,16 +225,46 @@ display_ad:
     call $write_msg
     ret
 
-display_ad_one:
+display_ad1:
     loadi r6 $ad1
     call $display_ad
     ret
-display_ad_two:
+display_ad2:
     loadi r6 $ad2
     call $display_ad
     ret
+display_ad3:
+    halt
+    loadi r6 $ad3
+    call $display_ad
+    ret
+display_ad4:
+    loadi r6 $ad4
+    call $display_ad
+    ret
+
+new_ad:
+    dec r10 r10
+    jmp.z $reset_ad
+    loadi r5 4
+    sub r6 r5 r10
+    jmp.z $display_ad4
+    loadi r5 3
+    sub r6 r5 r10
+    halt
+    jmp.z $display_ad3
+    halt
+    loadi r5 2
+    sub r6 r5 r10
+    jmp.z $display_ad2
+    jmp $display_ad1
+
+reset_ad:
+    loadi r10 5
+    jmp $new_ad
 .data
 top: .zstring #italic(#bold(#textcolor(red,"_")))
+bot: .zstring #backcolor(default,#italic(#bold(#textcolor(red,"_"))))
 right_angle: .zstring #bold(#italic(#textcolor(red, "/")))
 left_angle: .zstring #bold(#italic(#textcolor(red, "\\")))
 borders: .zstring #bold(#italic(#textcolor(red,"|")))
@@ -247,6 +272,8 @@ logo: .zstring #italic(#backcolor(blue,#textcolor(cyan,"CPUlm")) + #backcolor(br
 fill: .zstring #backcolor(black," ")
 ad1: .zstring #backcolor(red,#textcolor(black,#italic("Marre des pubs ? Devenez Premium !")))
 ad2: .zstring #backcolor(red,#textcolor(black,#italic("CPUlm Now bientot disponible: Votre CPU dans le cloud !")))
+ad3: .zstring #backcolor(red,#textcolor(black,#italic("CPUlm La montre toujours en avance")))
+ad4: .zstring #backcolor(red,#textcolor(black,#italic("AdopteUnCpu.com, trouve les CPUs les plus chauds de la region.")))
 fill_ad: .zstring #backcolor(red," ")
 todo: .zstring #italic(#backcolor(black,#textcolor(red,"TODO")))
 int_to_str:
