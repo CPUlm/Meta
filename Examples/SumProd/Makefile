@@ -13,7 +13,7 @@ print-encoded: assembler
 	clear && ../../Assembler/asm sum_prod.ulm --print-encoded
 
 run-vm: build-asm vm
-	clear && ../../VirtualMachine/build/src/cpulm_vm sum_prod.po sum_prod.do
+	clear && ../../VirtualMachine/build/src/cpulm_vm sum_prod.po sum_prod.do --no-screen
 
 clean:
 	-rm -f sum_prod.po
