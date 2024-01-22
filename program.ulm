@@ -1,17 +1,18 @@
-.include "drawing.ulm"
+#include "drawing.ulm"
 .text
 init:
     loadi r24 1
     loadi r25 1
     loadi r23 1
     loadi r10 9 ; le numero de la pub actuelle
+
     jmp $refresh_init
 main:
     jmp $init
 
 loop:
 #ifdef FAST_FORWARD
-    jmp $vrai_update_sec    jmp $vrai_update_sec
+    jmp $vrai_update_sec
 #endif
     loadi r12 1024
     load r12 r12
@@ -158,8 +159,8 @@ month_days_table:
     .int 32
 
 year_mod_400:
-    .int 0
+    .int 24
 year_mod_4:
     .int 0
 year_mod_100:
-    .int 0
+    .int 24

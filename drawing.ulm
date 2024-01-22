@@ -252,12 +252,14 @@ draw_back:
     jmp $loop
 
 draw_delimiteur:
-    loadi r4 $right_angle
+    loadi r4 $dc
     load r4 r4
     loadi r3 220
     store r3 r4
     loadi r3 223
     store r3 r4
+    loadi r4 $right_angle
+    load r4 r4
     loadi r3 119
     store r3 r4
     loadi r3 122
@@ -336,7 +338,9 @@ refresh_sec:
     call $draw_sec
     jmp $loop
 refresh_min:
+#ifndef FAST_FORWARD
     call $new_ad
+#endif
     call $draw_sec
     call $draw_min
     jmp $loop
@@ -448,6 +452,7 @@ splash_waiting4: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"
 splash_waiting3: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"3eme")+#textcolor(yellow, " dans la file d'attente..."))
 splash_waiting2: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"2eme")+#textcolor(yellow, " dans la file d'attente..."))
 splash_waiting1: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"1er")+#textcolor(yellow, " dans la file d'attente..."))
+dc: .zstring #italic(#bold(#textcolor(red,":")))
 top: .zstring #italic(#bold(#textcolor(red,"_")))
 bot: .zstring #backcolor(default,#italic(#bold(#textcolor(red,"_"))))
 right_angle: .zstring #bold(#italic(#textcolor(red, "/")))
