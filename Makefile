@@ -57,3 +57,7 @@ run-cpu-prof: build-cpu-prof build-prog
 
 build/cpulm.profdata:
 	llvm-profdata-14 merge -output=build/cpulm.profdata $(wildcard build/cpulm-*.profraw)
+
+clean:
+	make -C Examples/SumProd/ clean
+	make -C Examples/4BitAdder/ clean
