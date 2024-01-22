@@ -1,0 +1,43 @@
+.text
+
+; Array pointer in r20
+; Array size in r21
+;
+; void sum_prod(int* array, int array_length, int* sum, int* prod)
+;
+; Sum is in r10
+; Prod is in r11
+
+sum_prod:
+    loadi    r10    0
+    loadi    r11    1
+    dec      r21    r21
+
+loop:
+    jmp.n    $sum_prod_end
+    add      r2     r20     r21     ; offset in the array
+    load     r2     r2              ; element in the array
+    add      r10    r10     r2
+    mul      r11    r11     r2
+    dec      r21    r21
+    jmp      $loop
+
+sum_prod_end:
+    ret
+
+; Compute the sum and the product of an array, and store in rout the difference of both.
+main:
+    loadi    r20    $array
+    loadi    r21    $array_size
+    load     r21    r21             ; r20 is the size of our array
+    call     $sum_prod
+    sub      rout   r11     r10
+    halt
+
+.data
+array_size:
+    .int 3
+array:
+    .int 4
+    .int 8
+    .int 3

@@ -1,0 +1,36 @@
+INPUT rs1, rs2
+OUTPUT res, carry
+VAR rs1:4, rs2:4, _l_0, _rs1_sel_0, _rs2_sel_0, _l_3, _l_4, _l_5, _l_6, _l_7, _rs1_sel_1, _rs2_sel_1, _l_10, _l_11, _l_12, _l_13, _l_14, _l_15:2, _rs1_sel_2, _rs2_sel_2, _l_18, _l_19, _l_20, _l_21, _l_22, _l_23:3, _rs1_sel_3, _rs2_sel_3, _l_26, _l_27, _l_28, _l_29, carry, res:4
+IN
+_l_0 = 0
+_rs1_sel_0 = SELECT 0 rs1
+_rs2_sel_0 = SELECT 0 rs2
+_l_3 = XOR _rs1_sel_0 _rs2_sel_0
+_l_4 = XOR _l_3 _l_0
+_l_5 = AND _l_3 _l_0
+_l_6 = AND _rs1_sel_0 _rs2_sel_0
+_l_7 = OR _l_5 _l_6
+_rs1_sel_1 = SELECT 1 rs1
+_rs2_sel_1 = SELECT 1 rs2
+_l_10 = XOR _rs1_sel_1 _rs2_sel_1
+_l_11 = XOR _l_10 _l_7
+_l_12 = AND _l_10 _l_7
+_l_13 = AND _rs1_sel_1 _rs2_sel_1
+_l_14 = OR _l_12 _l_13
+_l_15 = CONCAT _l_4 _l_11
+_rs1_sel_2 = SELECT 2 rs1
+_rs2_sel_2 = SELECT 2 rs2
+_l_18 = XOR _rs1_sel_2 _rs2_sel_2
+_l_19 = XOR _l_18 _l_14
+_l_20 = AND _l_18 _l_14
+_l_21 = AND _rs1_sel_2 _rs2_sel_2
+_l_22 = OR _l_20 _l_21
+_l_23 = CONCAT _l_15 _l_19
+_rs1_sel_3 = SELECT 3 rs1
+_rs2_sel_3 = SELECT 3 rs2
+_l_26 = XOR _rs1_sel_3 _rs2_sel_3
+_l_27 = XOR _l_26 _l_22
+_l_28 = AND _l_26 _l_22
+_l_29 = AND _rs1_sel_3 _rs2_sel_3
+carry = OR _l_28 _l_29
+res = CONCAT _l_23 _l_27
