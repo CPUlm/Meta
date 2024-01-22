@@ -11,5 +11,5 @@ Use:
 Be Happy !
 
 <p align="center">
-  <img src="https://github.com/desfreng/netlist/assets/125741538/7d4473a0-a21d-407c-87c8-1ed4e4308624" width="200"/>
+  <img src="https://github.com/CPUlm/Meta/assets/125741538/4c5419a2-516f-4612-8dc4-9caec6db764a" width="1000"/>
 </p>
