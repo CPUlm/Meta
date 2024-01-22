@@ -3,6 +3,160 @@ refresh_init:
     loadi r3 63
     loadi r4 $bot
     load r4 r4
+    jmp $splash_draw_frame
+
+
+splash_draw_frame:
+    dec r3 r3
+    jmp.z $splash_draw_frame_2
+    store r3 r4
+    jmp $splash_draw_frame
+
+splash_draw_frame_2:
+    loadi r4 $borders
+    load r4 r4
+    loadi r3 128
+    store r3 r4
+    loadi r3 191
+    store r3 r4
+    loadi r3 192
+    store r3 r4
+    loadi r3 255
+    store r3 r4
+    loadi r3 256
+    store r3 r4
+    loadi r3 319
+    store r3 r4
+splash_draw_frame_3:
+    ; les coins
+    inc r3 r3
+    loadi r3 64
+    loadi r4 $right_angle
+    load r4 r4
+    store r3 r4
+    loadi r4 $left_angle
+    load r4 r4
+    loadi r3 127
+    store r3 r4
+    loadi r3 320
+    store r3 r4
+    loadi r4 $right_angle
+    load r4 r4
+    loadi r3 383
+    store r3 r4
+    inc r3 r3
+    inc r3 r3
+    loadi r4 $left_angle
+    load r4 r4
+    store r3 r4
+    loadi r4 $top
+    load r4 r4
+    loadi r5 446
+
+
+splash_draw_frame_4:
+    inc r3 r3; le bord bas
+    sub r6 r5 r3
+    jmp.z $splash_draw_frame_5
+    store r3 r4
+    jmp $splash_draw_frame_4
+
+splash_draw_frame_5:
+    loadi r4 $right_angle
+    load r4 r4
+    store r3 r4
+splash_draw_logo:
+    loadi r4 $logo
+    loadi r3 474
+    call $write_msg
+splash_draw_back:
+    loadi r3 65
+    loadi r4 $fill
+    load r4 r4
+    loadi r5 62
+    call $draw_back_loop
+    loadi r5 62
+    loadi r3 129
+    call $draw_back_loop
+    loadi r5 62
+    loadi r3 193
+    call $draw_back_loop
+    loadi r5 62
+    loadi r3 257
+    call $draw_back_loop
+    loadi r5 62
+    loadi r3 321
+    call $draw_back_loop
+    loadi r3 257
+    loadi r4 $fill_ad
+    load r4 r4
+    loadi r5 62
+    call $draw_back_loop 
+fin_splash_screen:
+    
+    loadi r3 262
+    loadi r4 $splash_info
+    call $write_msg
+    loadi r3 198
+    loadi r4 $splash_waiting5
+    call $write_msg
+    call $debut_boucle_1
+    call $check_seconde_passee
+    loadi r3 198
+    loadi r4 $splash_waiting4
+    call $write_msg
+    call $debut_boucle_1
+    call $check_seconde_passee ; on s assure qu on a pas rate une seconde
+    call $debut_boucle_1
+    call $check_seconde_passee
+    loadi r3 198
+    loadi r4 $splash_waiting3
+    call $write_msg
+    call $debut_boucle_1
+    call $check_seconde_passee
+    call $debut_boucle_1
+    call $check_seconde_passee
+    loadi r3 198
+    loadi r4 $splash_waiting2
+    call $write_msg
+    call $debut_boucle_1
+    call $check_seconde_passee
+    call $debut_boucle_1
+    call $check_seconde_passee
+    call $debut_boucle_1
+    call $check_seconde_passee
+    loadi r3 198
+    loadi r4 $splash_waiting1
+    call $write_msg
+    call $debut_boucle_1
+    call $check_seconde_passee
+
+    jmp $refresh_reel
+debut_boucle_1:
+    loadi r11 1000000
+boucle_1:
+    dec r11 r11
+    jmp.z $fin_boucle_1
+    jmp $boucle_1
+fin_boucle_1:
+    ret
+
+check_seconde_passee:
+    loadi r12 1024
+    load r12 r12
+    add r12 r0 r12
+    jmp.z $pas_seconde_passee
+    loadi r12 1024
+    store r12 r0
+    add r20 r20 r1
+pas_seconde_passee:
+    ret
+
+
+refresh_reel:
+    loadi r3 63
+    loadi r4 $bot
+    load r4 r4
     jmp $draw_frame
 
 draw_frame:
@@ -179,10 +333,10 @@ draw_sec:
 
 
 refresh_sec:
-    call $new_ad
     call $draw_sec
     jmp $loop
 refresh_min:
+    call $new_ad
     call $draw_sec
     call $draw_min
     jmp $loop
@@ -234,7 +388,6 @@ display_ad2:
     call $display_ad
     ret
 display_ad3:
-    halt
     loadi r6 $ad3
     call $display_ad
     ret
@@ -242,40 +395,76 @@ display_ad4:
     loadi r6 $ad4
     call $display_ad
     ret
+display_ad5:
+    loadi r6 $ad5
+    call $display_ad
+    ret
+display_ad6:
+    loadi r6 $ad6
+    call $display_ad
+    ret
+display_ad7:
+    loadi r6 $ad7
+    call $display_ad
+    ret
+display_ad8:
+    loadi r6 $ad8
+    call $display_ad
+    ret
 
 new_ad:
     dec r10 r10
     jmp.z $reset_ad
+    loadi r5 8
+    sub r6 r5 r10
+    jmp.z $display_ad8
+    loadi r5 7
+    sub r6 r5 r10
+    jmp.z $display_ad7
+    loadi r5 6
+    sub r6 r5 r10
+    jmp.z $display_ad6
+    loadi r5 5
+    sub r6 r5 r10
+    jmp.z $display_ad5
     loadi r5 4
     sub r6 r5 r10
     jmp.z $display_ad4
     loadi r5 3
     sub r6 r5 r10
-    halt
     jmp.z $display_ad3
-    halt
     loadi r5 2
     sub r6 r5 r10
     jmp.z $display_ad2
     jmp $display_ad1
 
 reset_ad:
-    loadi r10 5
+    loadi r10 9
     jmp $new_ad
 .data
+splash_info: .zstring #bold(#textcolor(red,"Devenez premium++ et passez la queue directement !"))
+splash_waiting5: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"5eme")+#textcolor(yellow, " dans la file d'attente..."))
+splash_waiting4: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"4eme")+#textcolor(yellow, " dans la file d'attente..."))
+splash_waiting3: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"3eme")+#textcolor(yellow, " dans la file d'attente..."))
+splash_waiting2: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"2eme")+#textcolor(yellow, " dans la file d'attente..."))
+splash_waiting1: .zstring #bold(#textcolor(yellow,"Vous etes ")+#textcolor(red,"1er")+#textcolor(yellow, " dans la file d'attente..."))
 top: .zstring #italic(#bold(#textcolor(red,"_")))
 bot: .zstring #backcolor(default,#italic(#bold(#textcolor(red,"_"))))
 right_angle: .zstring #bold(#italic(#textcolor(red, "/")))
 left_angle: .zstring #bold(#italic(#textcolor(red, "\\")))
 borders: .zstring #bold(#italic(#textcolor(red,"|")))
-logo: .zstring #italic(#backcolor(blue,#textcolor(cyan,"CPUlm")) + #backcolor(brightyellow,#textcolor(magenta,#italic("Gold Edition"))))
+logo: .zstring #italic(#backcolor(blue,#textcolor(cyan,"CPUlm")) + #backcolor(brightyellow,#textcolor(magenta,#italic(" Gold Edition "))))
 fill: .zstring #backcolor(black," ")
 ad1: .zstring #backcolor(red,#textcolor(black,#italic("Marre des pubs ? Devenez Premium !")))
 ad2: .zstring #backcolor(red,#textcolor(black,#italic("CPUlm Now bientot disponible: Votre CPU dans le cloud !")))
 ad3: .zstring #backcolor(red,#textcolor(black,#italic("CPUlm La montre toujours en avance")))
 ad4: .zstring #backcolor(red,#textcolor(black,#italic("AdopteUnCpu.com, trouve les CPUs les plus chauds de la region.")))
+ad5: .zstring #backcolor(red,#textcolor(black,#italic("Qu est-ce qui est jaune et qui vous attend ? Lidl !")))
+ad6: .zstring #backcolor(red,#textcolor(black,#italic("Merci a la DGSE d'avoir sponsorise le projet !")))
+ad7: .zstring #backcolor(red,#textcolor(black,#italic("[NEWS]AMD se retire du marche face au CPUlm XM-11 !")))
+ad8: .zstring #backcolor(red,#textcolor(black,#italic("Souscrivez a CPUnlock pour debloquer l affichage de l annee.")))
 fill_ad: .zstring #backcolor(red," ")
-todo: .zstring #italic(#backcolor(black,#textcolor(red,"TODO")))
+todo: .zstring #italic(#backcolor(black,#textcolor(red,"2024")))
 int_to_str:
  .zstring #italic(#backcolor(black,#textcolor(red,"00")))
  .zstring #italic(#backcolor(black,#textcolor(red,"01")))

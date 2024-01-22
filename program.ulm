@@ -4,7 +4,7 @@ init:
     loadi r24 1
     loadi r25 1
     loadi r23 1
-    loadi r10 4 ; le numero de la pub actuelle
+    loadi r10 9 ; le numero de la pub actuelle
     jmp $refresh_init
 main:
     jmp $init
