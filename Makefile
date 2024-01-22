@@ -20,10 +20,12 @@ build-netlist: csimulator cpulm
 	./CSimulator/csimulator ./CPUlm/cpulm.net ./build/
 
 build-cpu: build-netlist
-	cd build/ && clang *.c -o cpulm
+	cd build/ && clang *.c -O3 -o cpulm
 
-build-prog: assembler
-	gcc -x c -P -E -CC -nostdinc program.ulm -o program_tmp.ulm
+preprocess-prog:
+	gcc -x c -P -E -nostdinc program.ulm -o program_tmp.ulm
+
+build-prog: assembler preprocess-prog
 	./Assembler/asm program_tmp.ulm
 	mv program_tmp.po ./build/program.po
 	mv program_tmp.do ./build/program.do
