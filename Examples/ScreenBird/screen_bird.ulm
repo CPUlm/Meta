@@ -8,31 +8,32 @@ write_msg:
     inc r4 r4
     jmp $write_msg
 
+fin_msg:
+    ret
+
 main:
-    load r3 256
-    load r4 $chien1
+    loadi r3 256
+    loadi r4 $chien1
     call $write_msg
-    load r3 320
-    load r4 $chien2
+    loadi r3 320
+    loadi r4 $chien2
     call $write_msg
-    load r3 384
-    load r4 $chien3
+    loadi r3 384
+    loadi r4 $chien3
     call $write_msg
-    load r3 448
-    load r4 $chien4
+    loadi r3 448
+    loadi r4 $chien4
     call $write_msg
-    load r3 512
-    load r4 $chien5
+    loadi r3 512
+    loadi r4 $chien5
     call $write_msg
-    load r3 576
-    load r4 $chien5
-    call $write_msg
+    halt
     
 
 
 .data
-chien1: .zstring #textcolor(yellow,#backcolor(default,"   \  \__"))
-chien2: .zstring #textcolor(purple,#backcolor(default,"   (    @\___")))
+chien1: .zstring #textcolor(yellow,#backcolor(default,"   \\  \\__"))
+chien2: .zstring #textcolor(magenta,#backcolor(default,"   (    @\\___"))
 chien3: .zstring #textcolor(yellow,#backcolor(default,"   /         O"))
-chien5: .zstring #textcolor(purple,#backcolor(default,"  /   (_____/"))
-chien6: .zstring #textcolor(yellow,#backcolor(default," /_____/   U")))
+chien4: .zstring #textcolor(magenta,#backcolor(default,"  /   (_____/"))
+chien5: .zstring #textcolor(yellow,#backcolor(default," /_____/   U"))
