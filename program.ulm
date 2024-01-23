@@ -52,6 +52,7 @@ update_hour:
 
 update_day:
     loadi r22 0 ; heure devient 0
+    call $update_day_mod
     add r23 r23 r1 ; ajoute 1 jour
     loadi r2 2
     sub r2 r2 r24 ; on compare le mois et février
@@ -149,7 +150,15 @@ reset_year_mod_100:
     loadi r3 $year_mod_100
     store r3 r0
     jmp $update_year
-
+update_day_mod:
+    add r26 r26 r1
+    loadi r4 7
+    sub r4 r26 r4
+    jmp.z $reset_day_mod
+    ret
+reset_day_mod:
+    loadi r26 0
+    ret
 
 update_year:
     loadi r2 1
