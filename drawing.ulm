@@ -106,32 +106,61 @@ fin_splash_screen:
     loadi r4 $splash_waiting4
     call $write_msg
     call $debut_boucle_1
-    call $check_seconde_passee ; on s assure qu on a pas rate une seconde
     call $debut_boucle_1
-    call $check_seconde_passee
     loadi r3 198
     loadi r4 $splash_waiting3
     call $write_msg
     call $debut_boucle_1
-    call $check_seconde_passee
     call $debut_boucle_1
-    call $check_seconde_passee
     loadi r3 198
     loadi r4 $splash_waiting2
     call $write_msg
     call $debut_boucle_1
-    call $check_seconde_passee
     call $debut_boucle_1
-    call $check_seconde_passee
     call $debut_boucle_1
-    call $check_seconde_passee
     loadi r3 198
     loadi r4 $splash_waiting1
     call $write_msg
     call $debut_boucle_1
-    call $check_seconde_passee
-
+    call $fetch_act_val
     jmp $refresh_reel
+
+
+wait_for_stored:
+    loadi r4 1026
+    load r4 r4
+    sub r4 r4 r1
+    jmp.z $get_stored
+    jmp $wait_for_stored
+
+get_stored:
+    loadi r4 1027
+    load r4 r4
+    mov r20 r4
+    loadi r4 1028
+    load r4 r4
+    mov r21 r4
+    loadi r4 1029
+    load r4 r4
+    mov r22 r4
+    loadi r4 1030
+    load r4 r4
+    mov r23 r4
+    loadi r4 1031
+    load r4 r4
+    mov r24 r4
+    loadi r4 1032
+    load r4 r4
+    mov r25 r4
+    ; call $truc_bidule
+    ret
+
+fetch_act_val:
+    loadi r4 1025
+    loadi r3 1
+    store r4 r3
+    jmp $wait_for_stored
+
 debut_boucle_1:
     loadi r11 1000000
 boucle_1:
@@ -350,6 +379,9 @@ refresh_hour:
     call $draw_hrs
     jmp $loop
 refresh_day:
+#ifdef FAST_FORWARD
+    call $new_ad
+#endif
     call $draw_sec
     call $draw_min
     call $draw_hrs
@@ -417,6 +449,8 @@ display_ad8:
     ret
 
 new_ad:
+    loadi r4 1034
+    store r4 r1
     dec r10 r10
     jmp.z $reset_ad
     loadi r5 8

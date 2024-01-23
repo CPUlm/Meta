@@ -1,9 +1,9 @@
 #include "drawing.ulm"
 .text
 init:
-    loadi r24 1
-    loadi r25 27
-    loadi r23 1
+    loadi r24 2
+    loadi r25 2025
+    loadi r23 27
     loadi r10 9 ; le numero de la pub actuelle
 
     jmp $refresh_init
@@ -65,24 +65,28 @@ update_day:
     jmp $refresh_day
     
     
-update_day_feb:
+update_day_feb: ; si ici, on est en février
     loadi r2 30
     sub r2 r2 r23
+    jmp.z $update_month
+    loadi r2 29
+    sub r2 r2 r23 ; on regarde si on est au jour 29. Qu on accepte que si bissextile.
     jmp.z $check_bissextile
-    jmp $non_bissextile ; si on est pas une année bissextile il faut comparer avec 28
+    jmp $non_bissextile ; si on est pas une année bissextile, on compare à 28
     
-
-
 check_bissextile:
     loadi r2 $year_mod_400
+    load r2 r2
     test r2
-    jmp.z $update_month
+    jmp.z $refresh_day
     loadi r2 $year_mod_100
+    load r2 r2
     test r2
     jmp.z $non_bissextile
     loadi r2 $year_mod_4
+    load r2 r2
     test r2
-    jmp.z $update_month
+    jmp.z $refresh_day
     jmp $non_bissextile
 
 non_bissextile:
@@ -102,39 +106,48 @@ update_month:
 
 update_year_mod_400:
     loadi r3 $year_mod_400
+    load r3 r3
+    loadi r4 $year_mod_400
     add r3 r3 r1
+    store r4 r3
     loadi r4 400
     sub r2 r3 r4
     jmp.z $reset_year_mod_400
     jmp $update_year_mod_4
 reset_year_mod_400:
-    loadi r2 0
     loadi r2 $year_mod_400
+    store r2 r0
     jmp $update_year_mod_4
 
 update_year_mod_4:
     loadi r3 $year_mod_4
+    load r3 r3
+    loadi r4 $year_mod_4
     add r3 r3 r1
+    store r4 r3
     loadi r4 4
     sub r2 r3 r4
     jmp.z $reset_year_mod_4
     jmp $update_year_mod_100
 reset_year_mod_4:
-    loadi r3 0
     loadi r3 $year_mod_4
+    store r3 r0
     jmp $update_year_mod_100
 
 update_year_mod_100:
     loadi r3 $year_mod_100
+    load r3 r3
+    loadi r4 $year_mod_100
     add r3 r3 r1
-    loadi r4 4
+    store r4 r3
+    loadi r4 100
     sub r2 r3 r4
     jmp.z $reset_year_mod_100
     jmp $update_year
 
 reset_year_mod_100:
-    loadi r3 0
     loadi r3 $year_mod_100
+    store r3 r0
     jmp $update_year
 
 
@@ -159,8 +172,8 @@ month_days_table:
     .int 32
 
 year_mod_400:
-    .int 24
+    .int 25 
 year_mod_4:
-    .int 0
+    .int 1
 year_mod_100:
-    .int 24
+    .int 25
