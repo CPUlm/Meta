@@ -1,5 +1,5 @@
 .text
-#define WAIT_CYCLES 500000
+#define WAIT_CYCLES 800000
 
 refresh_init:
     loadi r3 63
