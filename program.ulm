@@ -161,8 +161,6 @@ reset_day_mod:
     ret
 
 update_year:
-    loadi r2 1
-    add r25 r25 r2
     loadi r24 1
     jmp $refresh_year
 .data

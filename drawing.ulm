@@ -367,8 +367,47 @@ draw_int: ;argument dans r5
 
 draw_yrs:
     loadi r3 123
-    loadi r4 $todo
+    loadi r4 1000
+    mov r6 r25
+    div rout r25 r4
+    loadi r4 $int_yr
+    add r4 r4 rout
+    add r4 r4 rout
     call $write_msg
+
+    mov r25 r6
+    loadi r3 124
+    loadi r5 100
+    div rout r25 r5
+    mov r25 rout
+    loadi r20 10
+    call $mod
+    loadi r4 $int_yr
+    add r4 r4 rout
+    add r4 r4 rout
+    call $write_msg
+
+    mov r25 r6
+    loadi r3 125
+    loadi r5 10
+    div rout r25 r5
+    mov r25 rout
+    loadi r20 10
+    call $mod
+    loadi r4 $int_yr
+    add r4 r4 rout
+    add r4 r4 rout
+    call $write_msg
+
+    mov r25 r6
+    loadi r3 126
+    loadi r20 10
+    call $mod
+    loadi r4 $int_yr
+    add r4 r4 rout
+    add r4 r4 rout
+    call $write_msg
+    mov r25 r6
     ret
 draw_mnths:
     mov r5 r24
@@ -569,6 +608,17 @@ day_in_the_week:
     .zstring #italic(#backcolor(black,#textcolor(red,"Freitag   ")))
     .zstring #italic(#backcolor(black,#textcolor(red,"Samstag   ")))
     .zstring #italic(#backcolor(black,#textcolor(red,"Sonntag   ")))
+int_yr:
+.zstring #italic(#backcolor(black,#textcolor(red,"0")))
+.zstring #italic(#backcolor(black,#textcolor(red,"1")))
+.zstring #italic(#backcolor(black,#textcolor(red,"2")))
+.zstring #italic(#backcolor(black,#textcolor(red,"3")))
+.zstring #italic(#backcolor(black,#textcolor(red,"4")))
+.zstring #italic(#backcolor(black,#textcolor(red,"5")))
+.zstring #italic(#backcolor(black,#textcolor(red,"6")))
+.zstring #italic(#backcolor(black,#textcolor(red,"7")))
+.zstring #italic(#backcolor(black,#textcolor(red,"8")))
+.zstring #italic(#backcolor(black,#textcolor(red,"9")))
 int_to_str:
  .zstring #italic(#backcolor(black,#textcolor(red,"00")))
  .zstring #italic(#backcolor(black,#textcolor(red,"01")))
