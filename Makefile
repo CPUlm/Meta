@@ -17,7 +17,7 @@ csimulator:
 
 vm:
 	mkdir -p ./VirtualMachine/build
-	cmake -S ./VirtualMachine/ -B ./VirtualMachine/build
+	cmake -S ./VirtualMachine/ -B ./VirtualMachine/build -DCMAKE_BUILD_TYPE=Release
 	cmake --build ./VirtualMachine/build
 
 
