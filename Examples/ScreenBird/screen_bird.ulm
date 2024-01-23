@@ -12,28 +12,34 @@ fin_msg:
     ret
 
 main:
-    loadi r3 256
+    loadi r3 0
+    loadi r4 $dialog1
+    call $write_msg
+    loadi r3 64
+    loadi r4 $dialog2
+    call $write_msg
+    loadi r3 128
     loadi r4 $chien1
     call $write_msg
-    loadi r3 320
+    loadi r3 192
     loadi r4 $chien2
     call $write_msg
-    loadi r3 384
+    loadi r3 256
     loadi r4 $chien3
     call $write_msg
-    loadi r3 448
+    loadi r3 320
     loadi r4 $chien4
     call $write_msg
-    loadi r3 512
+    loadi r3 384
     loadi r4 $chien5
     call $write_msg
     halt
-    
-
 
 .data
-chien1: .zstring #textcolor(yellow,#backcolor(default,"   \\  \\__"))
-chien2: .zstring #textcolor(magenta,#backcolor(default,"   (    @\\___"))
-chien3: .zstring #textcolor(yellow,#backcolor(default,"   /         O"))
-chien4: .zstring #textcolor(magenta,#backcolor(default,"  /   (_____/"))
-chien5: .zstring #textcolor(yellow,#backcolor(default," /_____/   U"))
+dialog1: .zstring #textcolor(black,"Me> "+#backcolor(green, "Draw me a bird in ASCII"))
+dialog2: .zstring #textcolor(black,"GPT> "+#backcolor(green, "Sure, there is a bird:"))
+chien1: .zstring #textcolor(yellow,#backcolor(default, "       \\  \\__"))
+chien2: .zstring #textcolor(magenta,#backcolor(default,"       (    @\\___"))
+chien3: .zstring #textcolor(yellow,#backcolor(default, "       /         O"))
+chien4: .zstring #textcolor(magenta,#backcolor(default,"      /   (_____/"))
+chien5: .zstring #textcolor(yellow,#backcolor(default, "     /_____/   U"))
