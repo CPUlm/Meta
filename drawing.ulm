@@ -136,6 +136,8 @@ wait_for_stored:
     jmp $wait_for_stored
 
 get_stored:
+    loadi r12 1024
+    store r12 r0
     loadi r4 1027
     load r4 r4
     mov r20 r4
