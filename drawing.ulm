@@ -148,10 +148,14 @@ get_stored:
     mov r23 r4
     loadi r4 1031
     load r4 r4
+    add r4 r4 r1
     mov r24 r4
     loadi r4 1032
     load r4 r4
     mov r25 r4
+    loadi r4 1033
+    load r4 r4
+    mov r26 r4
     ; call $truc_bidule
     ret
 
@@ -342,6 +346,7 @@ draw_days:
     mov r5 r23
     loadi r3 117
     call $draw_int
+    call $load_day_week
     ret
 
 draw_hrs:
@@ -476,6 +481,24 @@ new_ad:
     jmp.z $display_ad2
     jmp $display_ad1
 
+
+load_day_week:
+    loadi r4 $day_in_the_week
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    add r4 r26 r4
+    loadi r3 80
+    call $write_msg
+    ret
+
 reset_ad:
     loadi r10 9
     jmp $new_ad
@@ -504,6 +527,14 @@ ad7: .zstring #backcolor(red,#textcolor(black,#italic("[NEWS]AMD se retire du ma
 ad8: .zstring #backcolor(red,#textcolor(black,#italic("Souscrivez a CPUnlock pour debloquer l affichage de l annee.")))
 fill_ad: .zstring #backcolor(red," ")
 todo: .zstring #italic(#backcolor(black,#textcolor(red,"2024")))
+day_in_the_week:
+    .zstring #italic(#backcolor(black,#textcolor(red,"Montag    ")))
+    .zstring #italic(#backcolor(black,#textcolor(red,"Dienstag  ")))
+    .zstring #italic(#backcolor(black,#textcolor(red,"Mittwoch  ")))
+    .zstring #italic(#backcolor(black,#textcolor(red,"Donnerstag")))
+    .zstring #italic(#backcolor(black,#textcolor(red,"Freitag   ")))
+    .zstring #italic(#backcolor(black,#textcolor(red,"Samstag   ")))
+    .zstring #italic(#backcolor(black,#textcolor(red,"Sonntag   ")))
 int_to_str:
  .zstring #italic(#backcolor(black,#textcolor(red,"00")))
  .zstring #italic(#backcolor(black,#textcolor(red,"01")))
