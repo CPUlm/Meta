@@ -94,7 +94,7 @@ non_bissextile:
     loadi r2 29
     sub r2 r2 r23
     jmp.z $update_month
-    jmp $refresh_month
+    jmp $refresh_day
 
 update_month:
     loadi r23 1
