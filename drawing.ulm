@@ -368,6 +368,7 @@ draw_int: ;argument dans r5
 
 
 draw_yrs:
+    push r20
     loadi r3 123
     loadi r4 1000
     mov r6 r25
@@ -410,6 +411,7 @@ draw_yrs:
     add r4 r4 rout
     call $write_msg
     mov r25 r6
+    pop r20
     ret
 draw_mnths:
     mov r5 r24
