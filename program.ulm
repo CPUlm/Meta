@@ -162,6 +162,7 @@ reset_day_mod:
 
 update_year:
     loadi r24 1
+    inc r25 r25
     jmp $refresh_year
 .data
 month_days_table: 
