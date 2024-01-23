@@ -26,7 +26,7 @@ build-netlist: csimulator cpulm
 	./CSimulator/csimulator ./CPUlm/cpulm.net ./build/
 
 build-cpu: build-netlist
-	cd build/ && clang *.c -o cpulm
+	cd build/ && clang *.c -O2 -o cpulm
 
 
 # Synchronized mode
