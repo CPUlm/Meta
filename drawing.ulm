@@ -91,9 +91,9 @@ splash_draw_back:
     loadi r4 $fill_ad
     load r4 r4
     loadi r5 62
-    call $draw_back_loop 
+    call $draw_back_loop
 fin_splash_screen:
-    
+
     loadi r3 262
     loadi r4 $splash_info
     call $write_msg
@@ -156,7 +156,39 @@ get_stored:
     loadi r4 1033
     load r4 r4
     mov r26 r4
-    ; call $truc_bidule
+    call $compute_modulos
+    ret
+
+; input in r25 and r20
+; mod(int a, int b)
+; return (a % b) in rout
+mod:
+    div     rout    r25     r20
+    mul     rout    rout    r20
+    sub     rout    r25     rout
+    ret
+
+compute_modulos:
+    push    rout
+    push    r20
+
+    loadi   r20     400
+    call    $mod
+    loadi   r20     $year_mod_400
+    store   r20     rout
+
+    loadi   r20     100
+    call    $mod
+    loadi   r20     $year_mod_100
+    store   r20     rout
+
+    loadi   r20     4
+    call    $mod
+    loadi   r20     $year_mod_4
+    store   r20     rout
+
+    pop     r20
+    pop     rout
     ret
 
 fetch_act_val:
@@ -309,7 +341,7 @@ draw_back_loop:
 draw_back_loop_fin:
     ret
 
-write_msg: 
+write_msg:
     load r5 r4
     test r5
     jmp.z $fin_msg
@@ -399,7 +431,7 @@ refresh_month:
     call $draw_days
     call $draw_mnths
     jmp $loop
-refresh_year:    
+refresh_year:
     call $draw_sec
     call $draw_min
     call $draw_hrs
@@ -414,7 +446,7 @@ display_ad:
     loadi r4 $fill_ad
     load r4 r4
     loadi r5 62
-    call $draw_back_loop 
+    call $draw_back_loop
     loadi r3 257
     mov r4 r6
     call $write_msg
