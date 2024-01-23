@@ -1,0 +1,7 @@
+echo -e "Me> Draw me a bird in ASCII"
+echo -e "GPT> Sure, there is a bird:"
+echo -e "\x1b[1;45;32m       \  \__            \x1b[0m"
+echo -e "\x1b[1;45;32m       (    @\___        \x1b[0m"
+echo -e "\x1b[1;45;32m       /         O       \x1b[0m"
+echo -e "\x1b[1;45;32m      /   (_____/        \x1b[0m"
+echo -e "\x1b[1;45;32m     /_____/   U         \x1b[0m"
