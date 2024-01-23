@@ -1,4 +1,6 @@
 .text
+#define WAIT_CYCLES 500000
+
 refresh_init:
     loadi r3 63
     loadi r4 $bot
@@ -198,7 +200,7 @@ fetch_act_val:
     jmp $wait_for_stored
 
 debut_boucle_1:
-    loadi r11 1000000
+    loadi r11 WAIT_CYCLES
 boucle_1:
     dec r11 r11
     jmp.z $fin_boucle_1
